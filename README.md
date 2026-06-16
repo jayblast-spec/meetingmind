@@ -1,6 +1,6 @@
 # MeetingMind
 
-MeetingMind is part of Joy Ogunleye's AI Productivity Suite.
+MeetingMind is part of ArkNet Digital's AI Productivity Suite.
 
 ## Promise
 
