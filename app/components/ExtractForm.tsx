@@ -19,7 +19,7 @@ Attendees: Joy, Marcus, Aisha
 - Marcus confirmed the $2k/mo paid ads budget is approved; will launch LinkedIn + Meta campaigns next week
 - Analytics feature paused — moving to Q4 backlog (low usage data)
 - Aisha to compile support ticket feedback report by Monday
-- No new hires until August per Joy's call — pipeline not ready
+- No new hires until August per ArkNet Digital's call — pipeline not ready
 - Open: which ad platform works best for our ICP?
 - Follow-up sync scheduled in 2 weeks`;
 
