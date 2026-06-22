@@ -1,7 +1,250 @@
 'use client';
 import { useMemo, useState } from 'react';
-type Intel = { score:number; status:string; intelligence_map:Array<{label:string;value:string;status:string}>; action_queue:Array<{action:string;priority:string;impact:string}>; contributor_lanes:Array<{lane:string;mission:string}> };
-const product = {"repo":"MeetingMind","suite":"AI Productivity Suite","domain":"Meeting intelligence","accent":"from-violet-300 via-fuchsia-300 to-sky-300","hero":"Walk into every meeting with memory, leverage, and follow-through.","sub":"MeetingMind prepares the room before the call, captures the decisions during the call, and turns promises into follow-up memory after the call.","input":"Quarterly review with ACME: renewal risk, support delays, expansion ask, three stakeholders","cta":"Prepare meeting intelligence","score":"Meeting leverage","modules":[["Attendee context","Know people, roles, tension, promises, and prior history."],["Agenda strategy","Shape the conversation around outcomes, not noise."],["Decision capture","Record owners, deadlines, objections, and commitments."],["Follow-up engine","Generate emails, tasks, and relationship memory."]],"rows":[["Renewal review","Revenue","High","Surface risks, proof, objections, and expansion openings."],["Hiring screen","Talent","Medium","Prepare questions, scorecards, and red flags."],["Investor call","Founder","High","Clarify ask, traction, and likely objections."],["Client kickoff","Delivery","Medium","Turn expectations into owners and milestones."]],"missions":[["Calendar attendee research","Pull safe public/company context before meetings."],["Transcript ingestion","Extract decisions, action items, and objections from call notes."],["CRM sync","Push follow-ups and relationship memory to the right customer record."],["Meeting memory graph","Connect recurring people, promises, and unresolved topics."]]} as const;
-function fallback(subject:string): Intel { const score = Math.min(96, 61 + (subject.length % 29)); return { score, status: score > 84 ? 'strong' : score > 72 ? 'ready' : 'needs review', intelligence_map: product.modules.map(([label,value])=>({label,value,status:'review'})), action_queue: product.rows.slice(0,3).map(([item,owner,priority,note])=>({action:item+' - '+owner,priority,impact:note})), contributor_lanes: product.missions.map(([lane,mission])=>({lane,mission})) }; }
-export default function Home(){ const [subject,setSubject]=useState<string>(product.input); const [intel,setIntel]=useState<Intel>(()=>fallback(product.input)); const [loading,setLoading]=useState(false); const tone=useMemo(()=> intel.score>=86?'text-emerald-100 border-emerald-300/40 bg-emerald-400/10':intel.score>=72?'text-cyan-100 border-cyan-300/40 bg-cyan-300/10':'text-amber-100 border-amber-300/40 bg-amber-300/10',[intel.score]); async function run(){ setLoading(true); try{ const r=await fetch('/api/intelligence',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:subject})}); setIntel(await r.json()); } finally{ setLoading(false); } }
-return <main className="min-h-screen bg-[#05060a] text-white"><section className="relative overflow-hidden border-b border-white/10"><div className={`absolute inset-0 bg-gradient-to-br ${product.accent} opacity-20 blur-3xl`} /><div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:46px_46px] opacity-25"/><nav className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8"><div><p className="text-[10px] font-black uppercase tracking-[0.36em] text-white/45">{product.suite}</p><h1 className="text-xl font-black tracking-tight sm:text-2xl">{product.repo}</h1></div><div className="hidden items-center gap-6 text-sm text-white/65 md:flex"><a href="#studio">Studio</a><a href="#queue">Queue</a><a href="#contributors">Contributors</a><a href="#live" className="rounded-full bg-white px-4 py-2 font-black text-black">Run</a></div></nav><div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-10 sm:px-8 lg:grid-cols-[1fr_1fr] lg:pb-24 lg:pt-16"><div><p className="w-fit rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.24em] text-white/70">{product.domain}</p><h2 className="mt-7 max-w-4xl text-5xl font-black leading-[0.92] tracking-[-0.055em] sm:text-7xl lg:text-8xl">{product.hero}</h2><p className="mt-7 max-w-2xl text-lg leading-8 text-white/68">{product.sub}</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#live" className="rounded-full bg-white px-6 py-4 text-center text-sm font-black text-black">{product.cta}</a><a href="#contributors" className="rounded-full border border-white/15 px-6 py-4 text-center text-sm font-bold text-white/80">Contributor missions</a></div></div><div id="live" className="rounded-[2rem] border border-white/10 bg-black/35 p-4 shadow-2xl shadow-black/50 backdrop-blur-xl sm:p-5"><div className="rounded-[1.5rem] border border-white/10 bg-[#080d16]/90 p-5"><div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/40">AI command studio</p><h3 className="mt-2 text-2xl font-black">{product.cta}</h3></div><div className={`rounded-2xl border px-4 py-3 text-right ${tone}`}><p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">{product.score}</p><p className="text-3xl font-black">{intel.score}</p></div></div><textarea value={subject} onChange={(e)=>setSubject(e.target.value)} className="mt-6 min-h-32 w-full resize-none rounded-2xl border border-white/10 bg-white/[0.055] p-4 text-sm leading-6 text-white outline-none focus:border-white/35"/><button onClick={run} className="mt-4 w-full rounded-full bg-white px-5 py-4 text-sm font-black text-black">{loading?'Thinking...':product.cta}</button><div className="mt-5 grid gap-3 sm:grid-cols-2">{intel.intelligence_map.map(item=><div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4"><p className="text-[10px] font-black uppercase tracking-[0.22em] text-white/38">{item.status}</p><h4 className="mt-3 font-black">{item.label}</h4><p className="mt-2 text-sm leading-6 text-white/55">{item.value}</p></div>)}</div></div></div></div></section><section id="studio" className="mx-auto grid max-w-7xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[0.72fr_1.28fr]"><div><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/40">Product studio</p><h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">A real workflow surface, not a thin AI wrapper.</h2><p className="mt-5 text-base leading-7 text-white/58">Each module exists so users can move from input to useful output, then into memory, action, export, or collaboration.</p></div><div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045]">{product.rows.map(([item,owner,priority,note])=><div key={item} className="grid gap-3 border-b border-white/10 p-5 last:border-b-0 md:grid-cols-[1fr_0.7fr_0.5fr_1.3fr]"><p className="font-black">{item}</p><p className="text-sm text-white/58">{owner}</p><p className={String(priority)==='Critical'?'text-sm font-black text-red-200':'text-sm font-black text-cyan-100'}>{priority}</p><p className="text-sm leading-6 text-white/58">{note}</p></div>)}</div></section><section id="queue" className="border-y border-white/10 bg-white/[0.035]"><div className="mx-auto grid max-w-7xl gap-6 px-5 py-16 sm:px-8 lg:grid-cols-3">{intel.action_queue.map(item=><article key={item.action} className="rounded-[1.75rem] border border-white/10 bg-black/35 p-6"><p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/40">{item.priority}</p><h3 className="mt-4 text-2xl font-black tracking-tight">{item.action}</h3><p className="mt-4 text-sm leading-7 text-white/58">{item.impact}</p></article>)}</div></section><section id="contributors" className="mx-auto max-w-7xl px-5 py-16 sm:px-8"><div className="mb-8 max-w-3xl"><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/40">Contributor missions</p><h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Open-source should feel like joining a serious lab.</h2><p className="mt-5 text-base leading-7 text-white/58">Concrete lanes for builders who want to help ArkNet Digital create useful AI-era tools.</p></div><div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">{intel.contributor_lanes.map(item=><article key={item.lane} className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5"><h3 className="text-xl font-black">{item.lane}</h3><p className="mt-3 text-sm leading-7 text-white/58">{item.mission}</p></article>)}</div></section></main> }
+
+type Intel = {
+  score: number;
+  status: string;
+  intelligence_map: Array<{ label: string; value: string; status: string }>;
+  action_queue: Array<{ action: string; priority: string; impact: string }>;
+  contributor_lanes: Array<{ lane: string; mission: string }>;
+};
+
+const product = {
+  "repo": "MeetingMind",
+  "suite": "AI Productivity Suite",
+  "domain": "Meeting intelligence",
+  "accent": "from-violet-300 via-fuchsia-300 to-sky-300",
+  "hero": "Walk into every meeting with memory, leverage, and follow-through.",
+  "sub": "MeetingMind prepares the room before the call, captures the decisions during the call, and turns promises into follow-up memory after the call.",
+  "input": "Quarterly review with ACME: renewal risk, support delays, expansion ask, three stakeholders",
+  "cta": "Prepare meeting intelligence",
+  "score": "Meeting leverage",
+  "modules": [
+    ["Attendee context", "Know people, roles, tension, promises, and prior history."],
+    ["Agenda strategy", "Shape the conversation around outcomes, not noise."],
+    ["Decision capture", "Record owners, deadlines, objections, and commitments."],
+    ["Follow-up engine", "Generate emails, tasks, and relationship memory."]
+  ],
+  "rows": [
+    ["Renewal review", "Revenue", "High", "Surface risks, proof, objections, and expansion openings."],
+    ["Hiring screen", "Talent", "Medium", "Prepare questions, scorecards, and red flags."],
+    ["Investor call", "Founder", "High", "Clarify ask, traction, and likely objections."],
+    ["Client kickoff", "Delivery", "Medium", "Turn expectations into owners and milestones."]
+  ],
+  "missions": [
+    ["Calendar attendee research", "Pull safe public/company context before meetings."],
+    ["Transcript ingestion", "Extract decisions, action items, and objections from call notes."],
+    ["CRM sync", "Push follow-ups and relationship memory to the right customer record."],
+    ["Meeting memory graph", "Connect recurring people, promises, and unresolved topics."]
+  ]
+} as const;
+
+function fallback(subject: string): Intel {
+  const score = Math.min(96, 61 + (subject.length % 29));
+  return {
+    score,
+    status: score > 84 ? 'strong' : score > 72 ? 'ready' : 'needs review',
+    intelligence_map: product.modules.map(([label, value]) => ({ label, value, status: 'review' })),
+    action_queue: product.rows.slice(0, 3).map(([item, owner, priority, note]) => ({ action: item + ' — ' + owner, priority, impact: note })),
+    contributor_lanes: product.missions.map(([lane, mission]) => ({ lane, mission })),
+  };
+}
+
+const MONO = "'JetBrains Mono', ui-monospace, monospace";
+const SANS = "'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif";
+
+const CARD: React.CSSProperties = {
+  background: 'rgba(22,27,34,0.75)',
+  backdropFilter: 'blur(20px)',
+  border: '1px solid #30363D',
+  borderRadius: '4px',
+};
+
+export default function Home() {
+  const [subject, setSubject] = useState<string>(product.input);
+  const [intel, setIntel] = useState<Intel>(() => fallback(product.input));
+  const [loading, setLoading] = useState(false);
+
+  const scoreTone = useMemo(() => {
+    if (intel.score >= 86) return { color: '#34d399', border: 'rgba(52,211,153,0.25)', bg: 'rgba(52,211,153,0.08)' };
+    if (intel.score >= 72) return { color: '#00e5ff', border: 'rgba(0,229,255,0.25)', bg: 'rgba(0,229,255,0.08)' };
+    return { color: '#fbbf24', border: 'rgba(251,191,36,0.25)', bg: 'rgba(251,191,36,0.08)' };
+  }, [intel.score]);
+
+  async function run() {
+    setLoading(true);
+    try {
+      const r = await fetch('/api/intelligence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: subject }),
+      });
+      setIntel(await r.json());
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main style={{ minHeight: '100vh', background: '#111317', color: '#e2e2e8', fontFamily: SANS }}>
+
+      {/* ── HERO ── */}
+      <section style={{ borderBottom: '1px solid #30363D', position: 'relative', overflow: 'hidden' }}>
+        {/* glow */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,255,0.08), transparent)', pointerEvents: 'none' }} />
+
+        {/* nav */}
+        <nav style={{ position: 'relative', zIndex: 10, maxWidth: 1280, margin: '0 auto', padding: '20px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <p style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: '0.36em', color: '#849396', textTransform: 'uppercase', margin: 0 }}>{product.suite}</p>
+            <h1 style={{ fontFamily: SANS, fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', color: '#e2e2e8', margin: '4px 0 0' }}>{product.repo}</h1>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+            {(['Studio', 'Queue', 'Contributors'] as const).map(l => (
+              <a key={l} href={`#${l.toLowerCase()}`} style={{ fontFamily: MONO, fontSize: 12, fontWeight: 600, letterSpacing: '0.05em', color: '#849396', textDecoration: 'none' }}>{l.toUpperCase()}</a>
+            ))}
+            <a href="#live" style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', background: '#00e5ff', color: '#001f24', padding: '8px 20px', borderRadius: 4, textDecoration: 'none' }}>RUN →</a>
+          </div>
+        </nav>
+
+        {/* hero grid */}
+        <div style={{ position: 'relative', zIndex: 10, maxWidth: 1280, margin: '0 auto', padding: '40px 32px 64px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
+
+          {/* left */}
+          <div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 12px', border: '1px solid rgba(0,229,255,0.25)', background: 'rgba(0,229,255,0.06)', borderRadius: 4, marginBottom: 28 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', display: 'inline-block' }} />
+              <span style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: '#00e5ff' }}>STATUS: ACTIVE · {product.domain.toUpperCase()}</span>
+            </div>
+            <h2 style={{ fontFamily: SANS, fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 800, lineHeight: 1.05, letterSpacing: '-0.025em', color: '#e2e2e8', margin: 0 }}>{product.hero}</h2>
+            <p style={{ marginTop: 24, fontSize: 17, lineHeight: 1.7, color: '#849396', maxWidth: 520 }}>{product.sub}</p>
+            <div style={{ marginTop: 32, display: 'flex', gap: 12 }}>
+              <a href="#live" style={{ fontFamily: MONO, fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', background: '#00e5ff', color: '#001f24', padding: '14px 28px', borderRadius: 4, textDecoration: 'none' }}>{product.cta.toUpperCase()} →</a>
+              <a href="#contributors" style={{ fontFamily: MONO, fontSize: 13, fontWeight: 600, letterSpacing: '0.04em', border: '1px solid #30363D', color: '#849396', padding: '14px 24px', borderRadius: 4, textDecoration: 'none' }}>CONTRIBUTOR MISSIONS</a>
+            </div>
+          </div>
+
+          {/* right — command studio */}
+          <div id="live" style={{ ...CARD, padding: 20 }}>
+            <div style={{ borderRadius: 4, border: '1px solid #30363D', background: 'rgba(12,14,18,0.9)', padding: 20 }}>
+              {/* studio header */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 20 }}>
+                <div>
+                  <p style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#849396', margin: 0 }}>// AI COMMAND STUDIO</p>
+                  <h3 style={{ fontFamily: SANS, fontWeight: 800, fontSize: 20, color: '#e2e2e8', margin: '6px 0 0' }}>{product.cta}</h3>
+                </div>
+                <div style={{ padding: '10px 16px', border: `1px solid ${scoreTone.border}`, background: scoreTone.bg, borderRadius: 4, textAlign: 'right', minWidth: 80 }}>
+                  <p style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: scoreTone.color, margin: 0, opacity: 0.8 }}>{product.score.toUpperCase()}</p>
+                  <p style={{ fontFamily: MONO, fontSize: 28, fontWeight: 700, color: scoreTone.color, margin: '4px 0 0', lineHeight: 1 }}>{intel.score}</p>
+                </div>
+              </div>
+
+              {/* textarea */}
+              <textarea
+                value={subject}
+                onChange={e => setSubject(e.target.value)}
+                style={{
+                  width: '100%', minHeight: 120, resize: 'none', background: '#0c0e12',
+                  border: '1px solid #30363D', borderRadius: 4, padding: '12px 14px',
+                  fontSize: 13, lineHeight: 1.6, color: '#e2e2e8', fontFamily: MONO,
+                  outline: 'none', boxSizing: 'border-box',
+                }}
+                onFocus={e => { e.currentTarget.style.borderColor = '#00e5ff'; e.currentTarget.style.boxShadow = '0 0 0 1px rgba(0,229,255,0.2)'; }}
+                onBlur={e => { e.currentTarget.style.borderColor = '#30363D'; e.currentTarget.style.boxShadow = 'none'; }}
+              />
+
+              {/* run button */}
+              <button
+                onClick={run}
+                style={{
+                  width: '100%', marginTop: 12, padding: '13px 0',
+                  background: '#00e5ff', color: '#001f24', border: 'none', borderRadius: 4,
+                  fontFamily: MONO, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em',
+                  cursor: 'pointer',
+                }}
+              >
+                {loading ? 'PROCESSING…' : product.cta.toUpperCase() + ' →'}
+              </button>
+
+              {/* intelligence map */}
+              <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {intel.intelligence_map.map(item => (
+                  <div key={item.label} style={{ ...CARD, padding: 14 }}>
+                    <p style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: '#849396', margin: 0, textTransform: 'uppercase' }}>{item.status}</p>
+                    <h4 style={{ fontFamily: SANS, fontWeight: 700, fontSize: 14, color: '#e2e2e8', margin: '8px 0 6px' }}>{item.label}</h4>
+                    <p style={{ fontSize: 12, lineHeight: 1.6, color: '#849396', margin: 0 }}>{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── STUDIO / PRODUCT TABLE ── */}
+      <section id="studio" style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 32px', display: 'grid', gridTemplateColumns: '0.72fr 1.28fr', gap: 48 }}>
+        <div>
+          <p style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#849396', margin: 0 }}>// PRODUCT STUDIO</p>
+          <h2 style={{ fontFamily: SANS, fontWeight: 800, fontSize: 'clamp(28px, 3.5vw, 44px)', letterSpacing: '-0.025em', color: '#e2e2e8', margin: '16px 0 0', lineHeight: 1.1 }}>
+            A real workflow surface, not a thin AI wrapper.
+          </h2>
+          <p style={{ marginTop: 20, fontSize: 15, lineHeight: 1.75, color: '#849396' }}>
+            Each module exists so users can move from input to useful output, then into memory, action, export, or collaboration.
+          </p>
+        </div>
+        <div style={{ ...CARD, overflow: 'hidden' }}>
+          {product.rows.map(([item, owner, priority, note]) => (
+            <div key={item} style={{ display: 'grid', gridTemplateColumns: '1fr 0.6fr 0.4fr 1.4fr', gap: 16, padding: '16px 20px', borderBottom: '1px solid #30363D' }}>
+              <p style={{ fontFamily: SANS, fontWeight: 700, fontSize: 14, color: '#e2e2e8', margin: 0 }}>{item}</p>
+              <p style={{ fontFamily: MONO, fontSize: 12, color: '#849396', margin: 0 }}>{owner}</p>
+              <p style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, color: priority === 'High' ? '#00e5ff' : '#A855F7', margin: 0 }}>{priority.toUpperCase()}</p>
+              <p style={{ fontSize: 13, lineHeight: 1.6, color: '#849396', margin: 0 }}>{note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── ACTION QUEUE ── */}
+      <section id="queue" style={{ borderTop: '1px solid #30363D', borderBottom: '1px solid #30363D', background: 'rgba(22,27,34,0.3)' }}>
+        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '64px 32px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          {intel.action_queue.map(item => (
+            <article key={item.action} style={{ ...CARD, padding: 24 }}>
+              <p style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: item.priority === 'High' ? '#00e5ff' : '#A855F7', margin: 0 }}>{item.priority.toUpperCase()}</p>
+              <h3 style={{ fontFamily: SANS, fontWeight: 800, fontSize: 20, letterSpacing: '-0.02em', color: '#e2e2e8', margin: '14px 0 0', lineHeight: 1.2 }}>{item.action}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.7, color: '#849396', margin: '14px 0 0' }}>{item.impact}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CONTRIBUTORS ── */}
+      <section id="contributors" style={{ maxWidth: 1280, margin: '0 auto', padding: '80px 32px' }}>
+        <div style={{ marginBottom: 40, maxWidth: 700 }}>
+          <p style={{ fontFamily: MONO, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#849396', margin: 0 }}>// CONTRIBUTOR MISSIONS</p>
+          <h2 style={{ fontFamily: SANS, fontWeight: 800, fontSize: 'clamp(28px, 3.5vw, 44px)', letterSpacing: '-0.025em', color: '#e2e2e8', margin: '16px 0 0', lineHeight: 1.1 }}>
+            Open-source should feel like joining a serious lab.
+          </h2>
+          <p style={{ marginTop: 20, fontSize: 15, lineHeight: 1.75, color: '#849396' }}>
+            Concrete lanes for builders who want to help ArkNet Digital create useful AI-era tools.
+          </p>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+          {intel.contributor_lanes.map(item => (
+            <article key={item.lane} style={{ ...CARD, padding: 20 }}>
+              <p style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#00e5ff', margin: '0 0 10px' }}>// MISSION</p>
+              <h3 style={{ fontFamily: SANS, fontWeight: 700, fontSize: 16, color: '#e2e2e8', margin: 0, lineHeight: 1.3 }}>{item.lane}</h3>
+              <p style={{ fontSize: 13, lineHeight: 1.7, color: '#849396', margin: '10px 0 0' }}>{item.mission}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ borderTop: '1px solid #30363D', padding: '32px', textAlign: 'center' }}>
+        <p style={{ fontFamily: MONO, fontSize: 11, color: '#849396', margin: 0, letterSpacing: '0.04em' }}>
+          {product.repo} · <a href="https://arknet.digital" style={{ color: '#849396', textDecoration: 'none' }}>ArkNet.digital</a>
+        </p>
+      </footer>
+    </main>
+  );
+}
