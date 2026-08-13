@@ -3,14 +3,15 @@ const ALL_TOOLS = [
   { name: "PostCraft", desc: "LinkedIn & X post writer", url: "https://postcraft-one.vercel.app", live: true },
   { name: "InvoiceKit", desc: "Professional invoice builder", url: "https://invoicekit-pi.vercel.app", live: true },
   { name: "DayForge", desc: "AI daily time-block planner", url: "https://dayforge-psi.vercel.app", live: true },
-  { name: "ExposureWatch", desc: "Digital exposure checker", url: "https://exposure-watch.vercel.app", live: true },
+  { name: "ExposureWatch", desc: "Digital exposure checker", url: null, live: false },
   { name: "PortGuard", desc: "IP & port scanner", url: "https://portguard-six.vercel.app", live: true },
   { name: "SafeLink", desc: "URL phishing scanner", url: "https://safelink-wheat.vercel.app", live: true },
   { name: "SubnetPilot", desc: "CIDR subnet calculator", url: "https://subnetpilot.vercel.app", live: true },
   { name: "ThreatPulse", desc: "CVE threat feed", url: "https://threatpulse-six.vercel.app", live: true },
   { name: "DevPulse", desc: "GitHub profile analytics", url: null, live: false },
   { name: "PitchReady", desc: "Startup idea analyzer", url: null, live: false },
-  { name: "ContractLens", desc: "Contract risk scanner", url: null, live: false },
+  { name: "ContractLens", desc: "Contract risk scanner", url: "https://contractlens-rho.vercel.app", live: true },
+  { name: "MeetingMind", desc: "Meeting notes to action items", url: "https://meetingmind-pied-one.vercel.app", live: true },
 ];
 
 const CURRENT = "MeetingMind";
