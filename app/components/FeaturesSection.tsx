@@ -3,6 +3,15 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
+const ICON_PATHS: Record<string, string> = {
+  ACTION_EXTRACT: "M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11",
+  DECISION_LOG: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-5 8l2 2 4-4",
+  OWNER_ASSIGN: "M20 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75M4 21v-2a4 4 0 014-4h4a4 4 0 014 4v2M12 11a4 4 0 100-8 4 4 0 000 8z",
+  ONE_CLICK_COPY: "M9 9h9a2 2 0 012 2v9a2 2 0 01-2 2H9a2 2 0 01-2-2v-9a2 2 0 012-2zM5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1",
+  "10S_FLAT": "M12 8v4l3 3M20 12a8 8 0 11-16 0 8 8 0 0116 0z",
+  PRIVACY_FIRST: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+};
+
 const FEATURES = [
   {
     label: "ACTION_EXTRACT",
@@ -51,7 +60,7 @@ export default function FeaturesSection() {
         <p
           className="text-xs font-bold tracking-widest uppercase mb-3"
           style={{
-            color: "#00e5ff",
+            color: "#2f7ab3",
             fontFamily: "var(--font-jetbrains, 'JetBrains Mono', monospace)",
             letterSpacing: "0.12em",
           }}
@@ -61,15 +70,15 @@ export default function FeaturesSection() {
         <h2
           className="text-2xl font-bold sm:text-3xl"
           style={{
-            color: "#e2e2e8",
+            color: "#f4efec",
             fontFamily: "var(--font-hanken, 'Hanken Grotesk', sans-serif)",
             letterSpacing: "-0.01em",
           }}
         >
           Every meeting ends with{" "}
-          <span style={{ color: "#00e5ff" }}>clarity</span>
+          <span style={{ color: "#2f7ab3" }}>clarity</span>
         </h2>
-        <p className="mt-3" style={{ color: "#849396" }}>
+        <p className="mt-3" style={{ color: "#a89f9b" }}>
           Stop losing decisions and commitments in your notes. MeetingMind structures them for you.
         </p>
       </motion.div>
@@ -82,17 +91,22 @@ export default function FeaturesSection() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.4, delay: i * 0.07 }}
             whileHover={{
-              borderColor: "rgba(0,229,255,0.35)",
-              boxShadow: "0 0 16px rgba(0,229,255,0.07)",
+              borderColor: "rgba(47,122,179,0.35)",
+              boxShadow: "0 0 16px rgba(47,122,179,0.07)",
             }}
             className="p-5 transition-colors"
             style={{
-              background: "rgba(22,27,34,0.7)",
+              background: "rgba(22,18,17,0.7)",
               backdropFilter: "blur(20px)",
-              border: "1px solid #30363D",
+              border: "1px solid #2d2422",
               borderRadius: "4px",
             }}
           >
+            <span className="icon-3d mb-4">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d={ICON_PATHS[f.label]} />
+              </svg>
+            </span>
             <p
               className="mb-3"
               style={{
@@ -100,7 +114,7 @@ export default function FeaturesSection() {
                 fontSize: "10px",
                 fontWeight: 700,
                 letterSpacing: "0.1em",
-                color: "#849396",
+                color: "#a89f9b",
               }}
             >
               {f.label}
@@ -108,13 +122,13 @@ export default function FeaturesSection() {
             <p
               className="font-semibold mb-1.5"
               style={{
-                color: "#e2e2e8",
+                color: "#f4efec",
                 fontFamily: "var(--font-hanken, sans-serif)",
               }}
             >
               {f.title}
             </p>
-            <p className="text-sm leading-relaxed" style={{ color: "#849396" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "#a89f9b" }}>
               {f.body}
             </p>
           </motion.div>

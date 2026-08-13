@@ -8,15 +8,15 @@ const MONO = "var(--font-jetbrains, 'JetBrains Mono', monospace)";
 const SANS = "var(--font-hanken, 'Hanken Grotesk', sans-serif)";
 
 const PRIORITY_STYLE: Record<ActionItem["priority"], { bg: string; color: string; border: string }> = {
-  high:   { bg: "rgba(0,229,255,0.08)",    color: "#00e5ff", border: "rgba(0,229,255,0.3)" },
+  high:   { bg: "rgba(47,122,179,0.08)",    color: "#2f7ab3", border: "rgba(47,122,179,0.3)" },
   medium: { bg: "rgba(168,85,247,0.08)",   color: "#A855F7", border: "rgba(168,85,247,0.3)" },
-  low:    { bg: "rgba(48,54,61,0.5)",      color: "#849396", border: "#30363D" },
+  low:    { bg: "rgba(48,54,61,0.5)",      color: "#a89f9b", border: "#2d2422" },
 };
 
 const CARD: React.CSSProperties = {
-  background: "rgba(22,27,34,0.75)",
+  background: "rgba(22,18,17,0.75)",
   backdropFilter: "blur(20px)",
-  border: "1px solid #30363D",
+  border: "1px solid #2d2422",
   borderRadius: "4px",
 };
 
@@ -81,10 +81,10 @@ export default function ExtractForm() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-10">
         {/* Input label */}
         <div className="flex items-center gap-2">
-          <span style={{ color: "#00e5ff", fontFamily: MONO, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
+          <span style={{ color: "#2f7ab3", fontFamily: MONO, fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
             $
           </span>
-          <label style={{ color: "#849396", fontFamily: MONO, fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <label style={{ color: "#a89f9b", fontFamily: MONO, fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
             PASTE MEETING NOTES
           </label>
         </div>
@@ -98,11 +98,11 @@ export default function ExtractForm() {
           style={{
             width: "100%",
             background: "#0c0e12",
-            border: "1px solid #30363D",
+            border: "1px solid #2d2422",
             borderRadius: "4px",
             padding: "16px",
             fontSize: "13px",
-            color: "#e2e2e8",
+            color: "#f4efec",
             fontFamily: MONO,
             lineHeight: "1.6",
             resize: "none",
@@ -110,15 +110,15 @@ export default function ExtractForm() {
             transition: "border-color 0.2s, box-shadow 0.2s",
           }}
           onFocus={(e) => {
-            e.currentTarget.style.borderColor = "#00e5ff";
-            e.currentTarget.style.boxShadow = "0 0 0 1px rgba(0,229,255,0.2)";
+            e.currentTarget.style.borderColor = "#2f7ab3";
+            e.currentTarget.style.boxShadow = "0 0 0 1px rgba(47,122,179,0.2)";
           }}
           onBlur={(e) => {
-            e.currentTarget.style.borderColor = "#30363D";
+            e.currentTarget.style.borderColor = "#2d2422";
             e.currentTarget.style.boxShadow = "none";
           }}
         />
-        <p style={{ color: "#849396", fontFamily: MONO, fontSize: "11px", letterSpacing: "0.04em" }}>
+        <p style={{ color: "#a89f9b", fontFamily: MONO, fontSize: "11px", letterSpacing: "0.04em" }}>
           Bullet points, transcripts, freeform — any format works.
         </p>
 
@@ -128,8 +128,8 @@ export default function ExtractForm() {
           disabled={state === "loading" || !notes.trim()}
           className="flex items-center justify-center gap-2 py-3.5 text-sm font-bold transition-all hover:opacity-90 active:scale-[0.99] disabled:opacity-40"
           style={{
-            background: "#00e5ff",
-            color: "#001f24",
+            background: "#2f7ab3",
+            color: "#f4efec",
             borderRadius: "4px",
             fontFamily: MONO,
             letterSpacing: "0.06em",
@@ -153,7 +153,7 @@ export default function ExtractForm() {
       {state === "error" && (
         <div
           className="mb-8 p-4 text-sm"
-          style={{ background: "rgba(248,113,113,0.08)", border: "1px solid rgba(248,113,113,0.25)", borderRadius: "4px", color: "#f87171", fontFamily: MONO }}
+          style={{ background: "rgba(194,59,59,0.08)", border: "1px solid rgba(194,59,59,0.25)", borderRadius: "4px", color: "#c23b3b", fontFamily: MONO }}
         >
           ERR: Something went wrong. Please try again.
         </div>
@@ -173,7 +173,7 @@ export default function ExtractForm() {
             {result.demo && (
               <div
                 className="flex items-center gap-2 px-4 py-2.5 text-xs"
-                style={{ background: "rgba(0,229,255,0.06)", border: "1px solid rgba(0,229,255,0.2)", borderRadius: "4px", color: "#00e5ff", fontFamily: MONO, letterSpacing: "0.04em" }}
+                style={{ background: "rgba(47,122,179,0.06)", border: "1px solid rgba(47,122,179,0.2)", borderRadius: "4px", color: "#2f7ab3", fontFamily: MONO, letterSpacing: "0.04em" }}
               >
                 <span>◈</span> DEMO MODE — add a Groq API key to process your real notes
               </div>
@@ -188,9 +188,9 @@ export default function ExtractForm() {
               style={CARD}
             >
               <div className="p-5 flex-1">
-                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#00e5ff", marginBottom: "6px" }}>MEETING INTELLIGENCE REPORT</p>
-                <h3 className="text-xl font-bold" style={{ color: "#e2e2e8", fontFamily: SANS }}>{result.meeting.title}</h3>
-                <p className="text-sm mt-1" style={{ color: "#849396", fontFamily: MONO, fontSize: "12px" }}>
+                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#2f7ab3", marginBottom: "6px" }}>MEETING INTELLIGENCE REPORT</p>
+                <h3 className="text-xl font-bold" style={{ color: "#f4efec", fontFamily: SANS }}>{result.meeting.title}</h3>
+                <p className="text-sm mt-1" style={{ color: "#a89f9b", fontFamily: MONO, fontSize: "12px" }}>
                   {result.meeting.date} · {result.meeting.participants.join(", ")}
                 </p>
               </div>
@@ -198,9 +198,9 @@ export default function ExtractForm() {
                 <button
                   onClick={copyOutput}
                   className="px-3 py-1.5 text-xs font-bold transition-colors hover:border-opacity-80"
-                  style={{ border: "1px solid #30363D", borderRadius: "4px", color: "#849396", fontFamily: MONO, letterSpacing: "0.05em", background: "transparent" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,229,255,0.4)"; e.currentTarget.style.color = "#00e5ff"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#30363D"; e.currentTarget.style.color = "#849396"; }}
+                  style={{ border: "1px solid #2d2422", borderRadius: "4px", color: "#a89f9b", fontFamily: MONO, letterSpacing: "0.05em", background: "transparent" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(47,122,179,0.4)"; e.currentTarget.style.color = "#2f7ab3"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#2d2422"; e.currentTarget.style.color = "#a89f9b"; }}
                 >
                   {copied ? "COPIED ✓" : "COPY ALL"}
                 </button>
@@ -214,13 +214,13 @@ export default function ExtractForm() {
               transition={{ delay: 0.15 }}
               style={{ ...CARD, padding: "20px" }}
             >
-              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#00e5ff", marginBottom: "10px" }}>// SUMMARY</p>
-              <p className="text-sm leading-relaxed" style={{ color: "#e2e2e8" }}>{result.meeting.summary}</p>
+              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#2f7ab3", marginBottom: "10px" }}>// SUMMARY</p>
+              <p className="text-sm leading-relaxed" style={{ color: "#f4efec" }}>{result.meeting.summary}</p>
             </motion.div>
 
             {/* Action Items */}
             <div>
-              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#849396", marginBottom: "10px" }}>
+              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#a89f9b", marginBottom: "10px" }}>
                 ACTION_ITEMS ({result.meeting.actionItems.length})
               </p>
               <div className="flex flex-col gap-2">
@@ -242,10 +242,10 @@ export default function ExtractForm() {
                         {item.priority.toUpperCase()}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm" style={{ color: "#e2e2e8", fontFamily: MONO }}>{item.action}</p>
+                        <p className="text-sm" style={{ color: "#f4efec", fontFamily: MONO }}>{item.action}</p>
                         <div className="flex items-center gap-3 mt-1.5">
-                          {item.owner && <span style={{ color: "#849396", fontSize: "11px", fontFamily: MONO }}>owner:{item.owner}</span>}
-                          {item.dueDate && <span style={{ color: "#849396", fontSize: "11px", fontFamily: MONO }}>due:{item.dueDate}</span>}
+                          {item.owner && <span style={{ color: "#a89f9b", fontSize: "11px", fontFamily: MONO }}>owner:{item.owner}</span>}
+                          {item.dueDate && <span style={{ color: "#a89f9b", fontSize: "11px", fontFamily: MONO }}>due:{item.dueDate}</span>}
                         </div>
                       </div>
                     </motion.div>
@@ -257,7 +257,7 @@ export default function ExtractForm() {
             {/* Decisions */}
             {result.meeting.decisions.length > 0 && (
               <div>
-                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#849396", marginBottom: "10px" }}>
+                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#a89f9b", marginBottom: "10px" }}>
                   DECISIONS ({result.meeting.decisions.length})
                 </p>
                 <div className="flex flex-col gap-2">
@@ -270,8 +270,8 @@ export default function ExtractForm() {
                       className="p-4"
                       style={CARD}
                     >
-                      <p className="text-sm font-semibold" style={{ color: "#e2e2e8", fontFamily: SANS }}>{d.decision}</p>
-                      {d.rationale && <p className="text-xs mt-1.5" style={{ color: "#849396", fontFamily: MONO }}>why: {d.rationale}</p>}
+                      <p className="text-sm font-semibold" style={{ color: "#f4efec", fontFamily: SANS }}>{d.decision}</p>
+                      {d.rationale && <p className="text-xs mt-1.5" style={{ color: "#a89f9b", fontFamily: MONO }}>why: {d.rationale}</p>}
                     </motion.div>
                   ))}
                 </div>
@@ -281,7 +281,7 @@ export default function ExtractForm() {
             {/* Open Questions */}
             {result.meeting.openQuestions.length > 0 && (
               <div>
-                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#849396", marginBottom: "10px" }}>
+                <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#a89f9b", marginBottom: "10px" }}>
                   OPEN_QUESTIONS ({result.meeting.openQuestions.length})
                 </p>
                 <div className="flex flex-col gap-2">
@@ -292,10 +292,10 @@ export default function ExtractForm() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.35 + i * 0.05 }}
                       className="flex items-start gap-2 p-3"
-                      style={{ background: "rgba(251,191,36,0.05)", border: "1px solid rgba(251,191,36,0.2)", borderRadius: "4px" }}
+                      style={{ background: "rgba(201,151,63,0.05)", border: "1px solid rgba(201,151,63,0.2)", borderRadius: "4px" }}
                     >
-                      <span style={{ color: "#fbbf24", fontFamily: MONO, fontSize: "13px" }}>?</span>
-                      <p className="text-sm" style={{ color: "#849396", fontFamily: MONO }}>{q}</p>
+                      <span style={{ color: "#c9973f", fontFamily: MONO, fontSize: "13px" }}>?</span>
+                      <p className="text-sm" style={{ color: "#a89f9b", fontFamily: MONO }}>{q}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -308,10 +308,10 @@ export default function ExtractForm() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
               className="p-4"
-              style={{ background: "rgba(52,211,153,0.05)", border: "1px solid rgba(52,211,153,0.2)", borderRadius: "4px" }}
+              style={{ background: "rgba(79,157,114,0.05)", border: "1px solid rgba(79,157,114,0.2)", borderRadius: "4px" }}
             >
-              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#34d399", marginBottom: "8px" }}>NEXT_STEPS</p>
-              <p className="text-sm" style={{ color: "#e2e2e8" }}>{result.meeting.nextSteps}</p>
+              <p style={{ fontFamily: MONO, fontSize: "10px", fontWeight: 700, letterSpacing: "0.1em", color: "#4f9d72", marginBottom: "8px" }}>NEXT_STEPS</p>
+              <p className="text-sm" style={{ color: "#f4efec" }}>{result.meeting.nextSteps}</p>
             </motion.div>
           </motion.div>
         )}

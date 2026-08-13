@@ -12,7 +12,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
   return (
     <section
       className="relative flex min-h-screen flex-col items-center justify-center px-4 text-center overflow-hidden"
-      style={{ background: "#111317" }}
+      style={{ background: "#0c0a0a" }}
     >
       {/* Cyan radial glow */}
       <div
@@ -20,7 +20,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
         style={{
           width: 700,
           height: 700,
-          background: "radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(47,122,179,0.07) 0%, transparent 65%)",
           borderRadius: "50%",
         }}
       />
@@ -38,19 +38,19 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
           transition={{ delay: 0.1 }}
           className="flex items-center gap-2 px-3 py-1"
           style={{
-            border: "1px solid rgba(0,229,255,0.25)",
-            background: "rgba(0,229,255,0.05)",
+            border: "1px solid rgba(47,122,179,0.25)",
+            background: "rgba(47,122,179,0.05)",
             borderRadius: "4px",
             fontFamily: "var(--font-jetbrains, 'JetBrains Mono', monospace)",
             fontSize: "11px",
             fontWeight: 700,
             letterSpacing: "0.08em",
-            color: "#00e5ff",
+            color: "#2f7ab3",
           }}
         >
           <span
             className="h-1.5 w-1.5 rounded-full animate-pulse"
-            style={{ background: "#34d399" }}
+            style={{ background: "#4f9d72" }}
           />
           STATUS: ACTIVE · FREE · NO SIGNUP
         </motion.div>
@@ -64,12 +64,12 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
           style={{
             letterSpacing: "-0.02em",
             fontFamily: "var(--font-hanken, 'Hanken Grotesk', sans-serif)",
-            color: "#e2e2e8",
+            color: "#f4efec",
           }}
         >
           Raw notes in.
           <br />
-          <span style={{ color: "#00e5ff" }}>Clear actions out.</span>
+          <span style={{ color: "#2f7ab3" }}>Clear actions out.</span>
         </motion.h1>
 
         {/* Subline */}
@@ -78,7 +78,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.6 }}
           className="max-w-xl text-base sm:text-lg"
-          style={{ color: "#849396" }}
+          style={{ color: "#a89f9b" }}
         >
           Paste your messy meeting notes. MeetingMind extracts every action item, decision, owner,
           and deadline — structured and ready to share in 10 seconds.
@@ -95,8 +95,8 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
             onClick={onExtractClick}
             className="px-8 py-3.5 text-sm font-bold transition-all hover:opacity-90 active:scale-95"
             style={{
-              background: "#00e5ff",
-              color: "#001f24",
+              background: "#2f7ab3",
+              color: "#f4efec",
               borderRadius: "4px",
               fontFamily: "var(--font-jetbrains, 'JetBrains Mono', monospace)",
               letterSpacing: "0.05em",
@@ -107,7 +107,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
           <span
             className="text-xs"
             style={{
-              color: "#849396",
+              color: "#a89f9b",
               fontFamily: "var(--font-jetbrains, monospace)",
               fontSize: "11px",
             }}
@@ -123,16 +123,16 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
           transition={{ delay: 0.7 }}
           className="mt-2 w-full max-w-sm text-left"
           style={{
-            background: "rgba(22,27,34,0.75)",
+            background: "rgba(22,18,17,0.75)",
             backdropFilter: "blur(20px)",
-            border: "1px solid #30363D",
+            border: "1px solid #2d2422",
             borderRadius: "4px",
           }}
         >
           {/* Card header */}
           <div
             className="flex items-center gap-2 px-4 py-3"
-            style={{ borderBottom: "1px solid #30363D" }}
+            style={{ borderBottom: "1px solid #2d2422" }}
           >
             <span
               style={{
@@ -140,7 +140,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
                 fontSize: "10px",
                 fontWeight: 700,
                 letterSpacing: "0.1em",
-                color: "#00e5ff",
+                color: "#2f7ab3",
               }}
             >
               EXTRACTED ACTIONS
@@ -148,9 +148,9 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
             <span
               className="ml-auto px-2 py-0.5 text-[10px] font-bold"
               style={{
-                background: "rgba(52,211,153,0.12)",
-                color: "#34d399",
-                border: "1px solid rgba(52,211,153,0.25)",
+                background: "rgba(79,157,114,0.12)",
+                color: "#4f9d72",
+                border: "1px solid rgba(79,157,114,0.25)",
                 borderRadius: "4px",
                 fontFamily: "var(--font-jetbrains, monospace)",
                 letterSpacing: "0.05em",
@@ -174,9 +174,9 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
                 <span
                   className="shrink-0 px-1.5 py-0.5 text-[9px] font-bold"
                   style={{
-                    background: a.priority === "HIGH" ? "rgba(0,229,255,0.1)" : "rgba(168,85,247,0.1)",
-                    color: a.priority === "HIGH" ? "#00e5ff" : "#A855F7",
-                    border: `1px solid ${a.priority === "HIGH" ? "rgba(0,229,255,0.3)" : "rgba(168,85,247,0.3)"}`,
+                    background: a.priority === "HIGH" ? "rgba(47,122,179,0.1)" : "rgba(168,85,247,0.1)",
+                    color: a.priority === "HIGH" ? "#2f7ab3" : "#A855F7",
+                    border: `1px solid ${a.priority === "HIGH" ? "rgba(47,122,179,0.3)" : "rgba(168,85,247,0.3)"}`,
                     borderRadius: "4px",
                     fontFamily: "var(--font-jetbrains, monospace)",
                     letterSpacing: "0.05em",
@@ -188,7 +188,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
                   <p
                     className="text-xs leading-relaxed"
                     style={{
-                      color: "#e2e2e8",
+                      color: "#f4efec",
                       fontFamily: "var(--font-jetbrains, monospace)",
                     }}
                   >
@@ -197,7 +197,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
                   <p
                     className="mt-0.5"
                     style={{
-                      color: "#849396",
+                      color: "#a89f9b",
                       fontSize: "10px",
                       fontFamily: "var(--font-jetbrains, monospace)",
                     }}
@@ -220,7 +220,7 @@ export default function HeroSection({ onExtractClick }: { onExtractClick: () => 
       >
         <span
           style={{
-            color: "#849396",
+            color: "#a89f9b",
             fontFamily: "var(--font-jetbrains, monospace)",
             fontSize: "10px",
             letterSpacing: "0.12em",
