@@ -33,9 +33,18 @@ MeetingMind extracts every commitment from a meeting into an action item with an
 ## How It Works
 
 - `app/page.tsx` renders the landing shell with `HeroSection`, `FeaturesSection`, and the `ExtractForm` input component.
-- `app/api/extract/route.ts` sends the submitted notes to the Groq Chat Completions API (`llama-3.3-70b-versatile`) and parses the response into action items, decisions, and next steps.
-- `app/api/intelligence/route.ts` provides a supporting formatting pass over the extracted output.
+- `app/api/extract/route.ts` sends the submitted notes to the Groq Chat Completions API (`llama-3.3-70b-versatile`) against a strict typed schema (`MeetingOutput`) and falls back to a fixed demo extraction when no API key is set.
 - Styling is Tailwind CSS with Framer Motion handling interface transitions; the app is a single Next.js App Router deployment with no database layer.
+
+## Engineering Notes
+
+**The real problem:** raw meeting notes bury commitments inside narrative text — "we should probably get this to Sarah by Friday" is a real action item, but it doesn't look like one, so it gets lost the moment the notes get long.
+
+**The approach:** `extract/route.ts` forces the model's output into a typed `MeetingOutput` shape (separate action items, decisions, next steps) instead of returning a formatted paragraph, so a commitment either lands in a structured field or it doesn't — there's no ambiguous middle ground for the UI to render.
+
+**One real number:** the demo fallback is a fully worked meeting extraction, not a placeholder — real inferred owners, deadlines, and decisions, so the product is honestly demoable without a Groq key.
+
+**Not handled yet:** `app/api/intelligence` is a separate, disconnected decorative endpoint, not a real formatting pass on the extracted output.
 
 ## Live
 
