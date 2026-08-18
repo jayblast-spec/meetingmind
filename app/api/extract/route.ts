@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { completeWithFallback } from "@/lib/ai-fallback";
 
 export const maxDuration = 30;
 
@@ -56,11 +57,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "notes required" }, { status: 400 });
   }
 
-  if (!process.env.GROQ_API_KEY) {
-    await new Promise((r) => setTimeout(r, 1700));
-    return NextResponse.json({ demo: true, meeting: DEMO });
-  }
-
   const systemPrompt = `You are an expert meeting facilitator and productivity coach.
 Given raw meeting notes (could be bullet points, transcript excerpts, or freeform text), extract a structured meeting summary.
 
@@ -90,35 +86,17 @@ Return ONLY valid JSON matching exactly this shape:
 
 Be specific and concrete. If a deadline isn't mentioned, set dueDate to null. Infer priority from context.`;
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: `Meeting notes:\n\n${notes}` },
-      ],
-      temperature: 0.2,
-      max_tokens: 2000,
-    }),
-  });
-
-  if (!response.ok) {
-    return NextResponse.json({ error: "AI service unavailable" }, { status: 500 });
-  }
-
-  const data = await response.json();
-  const content = data.choices?.[0]?.message?.content ?? "";
-
   try {
+    const { content } = await completeWithFallback(systemPrompt, `Meeting notes:\n\n${notes}`, {
+      temperature: 0.2,
+      maxTokens: 2000,
+    });
     const jsonMatch = content.match(/\{[\s\S]*\}/);
     const meeting: MeetingOutput = JSON.parse(jsonMatch ? jsonMatch[0] : content);
     return NextResponse.json({ demo: false, meeting });
-  } catch {
-    return NextResponse.json({ error: "Failed to parse output" }, { status: 500 });
+  } catch (err) {
+    console.error("completeWithFallback failed:", err instanceof Error ? err.message : err);
+    await new Promise((r) => setTimeout(r, 1500));
+    return NextResponse.json({ demo: true, meeting: DEMO });
   }
 }
