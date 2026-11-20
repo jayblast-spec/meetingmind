@@ -7,7 +7,6 @@
 MeetingMind converts raw meeting notes or transcripts — bullet points, paragraphs, or full transcripts — into structured action items with owners and deadlines, a decision log, and a clear next-steps summary. The goal is a meeting that produces accountability instead of a wall of notes nobody rereads.
 
 <p>
-  <a href="https://meetingmind-pied-one.vercel.app"><img alt="Live Demo" src="https://img.shields.io/badge/Live-Demo-1D4ED8?style=for-the-badge&logo=vercel&logoColor=white"></a>
   <a href="https://github.com/jayblast-spec/meetingmind"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white"></a>
 </p>
 
@@ -48,7 +47,7 @@ MeetingMind extracts every commitment from a meeting into an action item with an
 
 ## Live
 
-[meetingmind-pied-one.vercel.app](https://meetingmind-pied-one.vercel.app)
+*(demo temporarily offline)*
 
 ## Tech Stack
 
